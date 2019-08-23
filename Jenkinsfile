@@ -45,6 +45,9 @@ spec:
                 sh 'node version'
                 sh 'echo $PATH'
                 sh 'npm install' 
+                container('nodejs') {
+                    sh "npm i"
+                }
             }
         }
     }

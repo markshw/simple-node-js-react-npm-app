@@ -20,7 +20,6 @@ spec:
     tty: true
   - name: nodejs
     image: node:6-alpine
-    args: '-p 3000:3000'
     command:
     - cat
     tty: true

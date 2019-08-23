@@ -40,13 +40,8 @@ spec:
         stage('Build') { 
             steps {
                 sh 'echo hello'
-                sh 'kubectl version'
-                sh 'go version'
-                sh 'node version'
-                sh 'echo $PATH'
-                sh 'npm install' 
                 container('nodejs') {
-                    sh "npm i"
+                    sh "npm install"
                 }
             }
         }

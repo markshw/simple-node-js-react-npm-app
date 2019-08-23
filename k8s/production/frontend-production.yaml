@@ -34,11 +34,11 @@ spec:
             memory: "500Mi"
             cpu: "100m"
         imagePullPolicy: Always
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: 80
-        command: ["sh", "-c", "app -frontend=true -backend-service=http://gceme-backend:8080 -port=80"]
+        # readinessProbe:
+        #   httpGet:
+        #     path: /healthz
+        #     port: 80
+        # command: ["sh", "-c", "app -frontend=true -backend-service=http://gceme-backend:8080 -port=80"]
         ports:
         - name: frontend
           containerPort: 80

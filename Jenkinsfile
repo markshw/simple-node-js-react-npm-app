@@ -64,14 +64,14 @@ spec:
         //     }
         // }
 
-        stage('Build and push image with Container Builder') {
-            steps {
-                sh 'printenv'
-                container('gcloud') {
-                sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ."
-                }
-            }
-        }
+        // stage('Build and push image with Container Builder') {
+        //     steps {
+        //         sh 'printenv'
+        //         container('gcloud') {
+        //         sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ."
+        //         }
+        //     }
+        // }
         stage('Deploy Production') {
         // Production branch
         steps{
@@ -81,7 +81,7 @@ spec:
               sh("echo here2")
               sh("gcloud container clusters list")
               sh("kubectl config current-context")
-              sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${IMAGE_TAG}#' ./k8s/production/*.yaml")
+              sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#master.26#' ./k8s/production/*.yaml")
               sh("echo here3")
               sh("kubectl cluster-info")
               // step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/services', credentialsId: env.JENKINS_CRED, verifyDeployments: false])

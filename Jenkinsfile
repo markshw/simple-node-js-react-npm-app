@@ -42,7 +42,7 @@ spec:
         APP_NAME = "my-app"
         FE_SVC_NAME = "${APP_NAME}-frontend"
         CLUSTER = "jenkins-cd"
-        CLUSTER_ZONE = "us-east1-d"
+        CLUSTER_ZONE = "us-central1-f"
         BRANCH_NAME = "master"
         IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
         JENKINS_CRED = "${PROJECT}"
@@ -80,7 +80,7 @@ spec:
               // Change deployed image in production to the one we just built
               sh("echo here2")
               sh("gcloud container clusters list")
-              sh("gcloud container clusters get-credentials jenkins-cd")
+              sh("gcloud container clusters get-credentials jenkins-cd --zone us-central1-f)
               sh("gcloud container clusters list")
               sh("kubectl config current-context")
               sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#master.26#' ./k8s/production/*.yaml")

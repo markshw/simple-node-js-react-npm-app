@@ -75,10 +75,13 @@ spec:
         stage('Deploy Production') {
         // Production branch
         steps{
+            sh("echo here1")
             container('kubectl') {
               // Change deployed image in production to the one we just built
+              sh("echo here2")
+              sh("kubectl config current-context")
               sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${IMAGE_TAG}#' ./k8s/production/*.yaml")
-              sh("echo here")
+              sh("echo here3")
               sh("kubectl cluster-info")
               // step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/services', credentialsId: env.JENKINS_CRED, verifyDeployments: false])
               // step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/production', credentialsId: env.JENKINS_CRED, verifyDeployments: true])

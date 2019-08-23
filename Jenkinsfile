@@ -75,19 +75,19 @@ spec:
         stage('Deploy Production') {
         // Production branch
         steps{
-            sh("echo here1")
+            // sh("echo here1")
             container('kubectl') {
               // Change deployed image in production to the one we just built
-              sh("echo here2")
-              sh("gcloud container clusters list")
-              sh("gcloud container clusters get-credentials jenkins-cd --zone=us-central1-f")
-              sh("gcloud container clusters list")
-              sh("kubectl config current-context")
+              // sh("echo here2")
+              // sh("gcloud container clusters list")
+              // sh("gcloud container clusters get-credentials jenkins-cd --zone=us-central1-f")
+              // sh("gcloud container clusters list")
+              // sh("kubectl config current-context")
               sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#master.26#' ./k8s/production/*.yaml")
-              sh("echo here3")
-              sh("kubectl cluster-info")
+              // sh("echo here3")
+              // sh("kubectl cluster-info")
               step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/services', credentialsId: env.JENKINS_CRED, verifyDeployments: false])
-              step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/production', credentialsId: env.JENKINS_CRED, verifyDeployments: true])
+              step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/production', credentialsId: env.JENKINS_CRED, verifyDeployments: false])
               sh("echo http://`kubectl --namespace=production get service/${FE_SVC_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'` > ${FE_SVC_NAME}")
             }
           }

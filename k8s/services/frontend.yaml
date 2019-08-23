@@ -15,7 +15,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: gceme-frontend
+  name: my-app-frontend
 spec:
   type: LoadBalancer
   ports:
@@ -24,5 +24,5 @@ spec:
     targetPort: 80
     protocol: TCP
   selector:
-    app: gceme
+    app: my-app
     role: frontend

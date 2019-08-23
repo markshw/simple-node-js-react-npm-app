@@ -34,11 +34,11 @@ spec:
             memory: "500Mi"
             cpu: "100m"
         imagePullPolicy: Always
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: 8080
-        command: ["sh", "-c", "app -port=8080"]
+        # readinessProbe:
+        #   httpGet:
+        #     path: /healthz
+        #     port: 8080
+        # command: ["sh", "-c", "app -port=8080"]
         ports:
         - name: backend
           containerPort: 8080

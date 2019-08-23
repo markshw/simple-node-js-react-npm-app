@@ -79,6 +79,7 @@ spec:
             container('kubectl') {
               // Change deployed image in production to the one we just built
               sh("echo here2")
+              sh("gcloud container clusters list")
               sh("kubectl config current-context")
               sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${IMAGE_TAG}#' ./k8s/production/*.yaml")
               sh("echo here3")

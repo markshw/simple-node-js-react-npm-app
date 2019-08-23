@@ -64,6 +64,7 @@ spec:
         // }
         stage('Build and push image with Container Builder') {
             steps {
+                sh 'printenv'
                 container('gcloud') {
                 sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ."
                 }

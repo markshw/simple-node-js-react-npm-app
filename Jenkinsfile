@@ -39,11 +39,11 @@ spec:
     stages {
         stage('Build') { 
             steps {
-                echo hello
-                kubectl version
-                go version
-                node version
-                echo $PATH
+                sh 'echo hello'
+                sh 'kubectl version'
+                sh 'go version'
+                sh 'node version'
+                sh 'echo $PATH'
                 sh 'npm install' 
             }
         }

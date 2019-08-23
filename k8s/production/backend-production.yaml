@@ -22,7 +22,7 @@ spec:
     metadata:
       name: backend
       labels:
-        app: gceme
+        app: my-app
         role: backend
         env: production
     spec:

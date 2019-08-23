@@ -43,6 +43,7 @@ spec:
         FE_SVC_NAME = "${APP_NAME}-frontend"
         CLUSTER = "jenkins-cd"
         CLUSTER_ZONE = "us-east1-d"
+        BRANCH_NAME = "master"
         IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
         JENKINS_CRED = "${PROJECT}"
     }
@@ -62,6 +63,7 @@ spec:
         //         }
         //     }
         // }
+
         stage('Build and push image with Container Builder') {
             steps {
                 sh 'printenv'
@@ -69,6 +71,18 @@ spec:
                 sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ."
                 }
             }
+        }
+        stage('Deploy Production') {
+        // Production branch
+        steps{
+            container('kubectl') {
+              // Change deployed image in production to the one we just built
+              sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${IMAGE_TAG}#' ./k8s/production/*.yaml")
+              step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/services', credentialsId: env.JENKINS_CRED, verifyDeployments: false])
+              step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/production', credentialsId: env.JENKINS_CRED, verifyDeployments: true])
+              sh("echo http://`kubectl --namespace=production get service/${FE_SVC_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'` > ${FE_SVC_NAME}")
+            }
+          }
         }
         // stage('Deliver') { 
         //     steps {

@@ -38,20 +38,34 @@ spec:
     }
     environment {
         CI = 'true' 
+        PROJECT = "bitclave-base"
+        APP_NAME = "my-app"
+        FE_SVC_NAME = "${APP_NAME}-frontend"
+        CLUSTER = "jenkins-cd"
+        CLUSTER_ZONE = "us-east1-d"
+        IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+        JENKINS_CRED = "${PROJECT}"
     }
     stages {
-        stage('Build') { 
+        // stage('Build') { 
+        //     steps {
+        //         sh 'echo hello'
+        //         container('nodejs') {
+        //             sh "npm install"
+        //         }
+        //     }
+        // }
+        // stage('Test') { 
+        //     steps {
+        //         container('nodejs') {
+        //             sh './jenkins/scripts/test.sh' 
+        //         }
+        //     }
+        // }
+        stage('Build and push image with Container Builder') {
             steps {
-                sh 'echo hello'
-                container('nodejs') {
-                    sh "npm install"
-                }
-            }
-        }
-        stage('Test') { 
-            steps {
-                container('nodejs') {
-                    sh './jenkins/scripts/test.sh' 
+                container('gcloud') {
+                sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ."
                 }
             }
         }

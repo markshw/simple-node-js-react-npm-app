@@ -20,6 +20,7 @@ spec:
     tty: true
   - name: nodejs
     image: node:6-alpine
+    args '-p 3000:3000'
     command:
     - cat
     tty: true
@@ -52,6 +53,15 @@ spec:
             steps {
                 container('nodejs') {
                     sh './jenkins/scripts/test.sh' 
+                }
+            }
+        }
+        stage('Deliver') { 
+            steps {
+                container('nodejs') {
+                    sh './jenkins/scripts/deliver.sh' 
+                    input message: 'Finished using the web site? (Click "Proceed" to continue)' 
+                    sh './jenkins/scripts/kill.sh' 
                 }
             }
         }

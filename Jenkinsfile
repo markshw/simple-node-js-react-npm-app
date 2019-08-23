@@ -45,7 +45,7 @@ spec:
         CLUSTER_ZONE = "us-central1-f"
         BRANCH_NAME = "master"
         IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
-        JENKINS_CRED = "default:cd-jenkins"
+        JENKINS_CRED = "${PROJECT}"
     }
     stages {
         // stage('Build') { 

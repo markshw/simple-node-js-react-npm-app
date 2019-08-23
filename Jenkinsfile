@@ -34,14 +34,24 @@ spec:
     - cat
     tty: true
 """
-}
-  }
+        }
+    }
+    environment {
+        CI = 'true' 
+    }
     stages {
         stage('Build') { 
             steps {
                 sh 'echo hello'
                 container('nodejs') {
                     sh "npm install"
+                }
+            }
+        }
+        stage('Test') { 
+            steps {
+                container('nodejs') {
+                    sh './jenkins/scripts/test.sh' 
                 }
             }
         }

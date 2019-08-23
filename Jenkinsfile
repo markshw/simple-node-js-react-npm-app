@@ -38,7 +38,7 @@ spec:
     }
     environment {
         CI = 'true' 
-        PROJECT = "bitclave-base"
+        PROJECT = "jenkins-cd"
         APP_NAME = "my-app"
         FE_SVC_NAME = "${APP_NAME}-frontend"
         CLUSTER = "jenkins-cd"

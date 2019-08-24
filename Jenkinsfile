@@ -88,7 +88,22 @@ spec:
               // sh("kubectl cluster-info")
               step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/services', credentialsId: env.JENKINS_CRED, verifyDeployments: false])
               step([$class: 'KubernetesEngineBuilder',namespace:'production', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/production', credentialsId: env.JENKINS_CRED, verifyDeployments: false])
+              sleep 10 // seconds
               sh("echo http://`kubectl --namespace=production get service/${FE_SVC_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'` > ${FE_SVC_NAME}")
+            }
+          }
+        }
+        stage ("Time to access the app") {
+          echo 'Waiting 5 minutes for deployment to complete prior starting smoke testing'
+          sleep 300 // seconds
+        }
+        stage('Cleanup Production') {
+            // Production branch
+            steps{
+            // sh("echo here1")
+            container('kubectl') {
+              sh("kubectl delete -n production services my-app-backend my-app-frontend")
+              sh("kubectl delete -n production deployment my-app-backend-production my-app-frontend-production")
             }
           }
         }

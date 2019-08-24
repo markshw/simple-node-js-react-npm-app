@@ -94,8 +94,10 @@ spec:
           }
         }
         stage ("Time to access the app") {
-          echo 'Waiting 5 minutes for deployment to complete prior starting smoke testing'
-          sleep 300 // seconds
+          steps {
+            echo 'Waiting 5 minutes for deployment to complete prior starting smoke testing'
+            sleep 300 // seconds
+          }
         }
         stage('Cleanup Production') {
             // Production branch

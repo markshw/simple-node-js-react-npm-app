@@ -84,6 +84,7 @@ spec:
               // sh("gcloud container clusters get-credentials jenkins-cd --zone=us-central1-f")
               // sh("gcloud container clusters list")
               // sh("kubectl config current-context")
+              sh("gcloud container clusters get-credentials base-first --zone us-central1-f --project bitclave-jenkins-ci")
               sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#gcr.io/bitclave-jenkins-ci/my-app:master.26#' ./k8s/production/*.yaml")
               // sh("echo here3")
               // sh("kubectl cluster-info")

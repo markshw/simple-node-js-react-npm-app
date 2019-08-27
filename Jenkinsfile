@@ -41,7 +41,7 @@ spec:
         PROJECT = "bitclave-jenkins-ci"
         APP_NAME = "my-app"
         FE_SVC_NAME = "${APP_NAME}-frontend"
-        CLUSTER = "jenkins-cd"
+        CLUSTER = "your-first-cluster-1"
         CLUSTER_ZONE = "us-central1-f"
         BRANCH_NAME = "master"
         IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"

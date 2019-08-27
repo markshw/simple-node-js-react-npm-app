@@ -104,6 +104,7 @@ spec:
             steps{
             // sh("echo here1")
             container('kubectl') {
+              sh("gcloud container clusters get-credentials base-first --zone us-central1-f --project bitclave-jenkins-ci")
               sh("kubectl delete -n production services my-app-backend my-app-frontend")
               sh("kubectl delete -n production deployment my-app-backend-production my-app-frontend-production")
             }

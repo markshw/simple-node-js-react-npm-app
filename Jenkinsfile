@@ -38,14 +38,15 @@ spec:
     }
     environment {
         CI = 'true' 
-        PROJECT = "bitclave-jenkins-ci"
+        // PROJECT = "bitclave-jenkins-ci"
+        PROJECT = "bitclave-base"
         APP_NAME = "my-app"
         FE_SVC_NAME = "${APP_NAME}-frontend"
         CLUSTER = "base-first"
         CLUSTER_ZONE = "us-central1-f"
         BRANCH_NAME = "master"
-        IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
-        JENKINS_CRED = "${PROJECT}"
+        IMAGE_TAG = "gcr.io/bitclave-jenkins-ci/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+        JENKINS_CRED = "bitclave-jenkins-ci"
     }
     stages {
         // stage('Build') { 
@@ -97,7 +98,7 @@ spec:
         stage ('Time to access the app') {
           steps {
             echo 'Waiting 3 minutes for deployment to complete prior starting smoke testing'
-            sleep 180 // seconds
+            sleep 10 // seconds
           }
         }
         stage('Cleanup Production') {

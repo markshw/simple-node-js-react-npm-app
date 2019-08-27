@@ -80,11 +80,13 @@ spec:
             container('kubectl') {
               // Change deployed image in production to the one we just built
               sh("echo here2")
+              sh("gcloud config get-value account")
               // sh("gcloud container clusters list")
               // sh("gcloud container clusters get-credentials jenkins-cd --zone=us-central1-f")
               // sh("gcloud container clusters list")
               // sh("kubectl config current-context")
               sh("gcloud container clusters get-credentials base-first --zone us-central1-f --project bitclave-jenkins-ci")
+              sh("gcloud config get-value account")
               sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#gcr.io/bitclave-jenkins-ci/my-app:master.26#' ./k8s/production/*.yaml")
               sh("echo here3")
               // sh("kubectl cluster-info")

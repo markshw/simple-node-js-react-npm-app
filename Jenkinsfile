@@ -46,7 +46,7 @@ spec:
         CLUSTER_ZONE = "us-central1-f"
         BRANCH_NAME = "master"
         IMAGE_TAG = "gcr.io/bitclave-jenkins-ci/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
-        JENKINS_CRED = "bitclave-jenkins-ci"
+        JENKINS_CRED = "bitclave-jenkins-cicd"
     }
     stages {
         // stage('Build') { 

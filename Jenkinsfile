@@ -38,7 +38,7 @@ spec:
     }
     environment {
         CI = 'true' 
-        PROJECT = "bitclave-jenkins-cicd"
+        PROJECT = "bitclave-jenkins-ci"
         // PROJECT = "bitclave-base"
         APP_NAME = "my-app"
         FE_SVC_NAME = "${APP_NAME}-frontend"
@@ -46,8 +46,8 @@ spec:
         CLUSTER = "jenkins-cd"
         CLUSTER_ZONE = "us-central1-f"
         BRANCH_NAME = "master"
-        IMAGE_TAG = "gcr.io/bitclave-jenkins-cicd/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
-        JENKINS_CRED = "bitclave-jenkins-cicd"
+        IMAGE_TAG = "gcr.io/bitclave-jenkins-ci/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+        JENKINS_CRED = "bitclave-jenkins-ci"
     }
     stages {
         // stage('Build') { 
@@ -97,7 +97,7 @@ spec:
               step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/production', credentialsId: env.JENKINS_CRED, verifyDeployments: false])
               sh("echo here4")
               sleep 10 // seconds
-              sh("gcloud container clusters get-credentials jenkins-cd --zone us-central1-f --project bitclave-jenkins-cicd")
+              sh("gcloud container clusters get-credentials jenkins-cd --zone us-central1-f --project ${env.PROJECT}")
               sh("echo here5")
               sh("echo `kubectl get service/${FE_SVC_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'`")
             }
@@ -114,7 +114,7 @@ spec:
             steps{
             // sh("echo here1")
             container('kubectl') {
-              sh("gcloud container clusters get-credentials jenkins-cd --zone us-central1-f --project bitclave-jenkins-cicd")
+              sh("gcloud container clusters get-credentials jenkins-cd --zone us-central1-f --project ${env.PROJECT}")
               sh("kubectl delete services my-app-backend my-app-frontend")
               sh("kubectl delete deployment my-app-backend-production my-app-frontend-production")
             }

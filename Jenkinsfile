@@ -46,7 +46,7 @@ spec:
         CLUSTER = "jenkins-cd"
         CLUSTER_ZONE = "us-central1-f"
         BRANCH_NAME = "master"
-        IMAGE_TAG = "gcr.io/bitclave-jenkins-ci/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+        IMAGE_TAG = "gcr.io/bitclave-jenkins-cicd/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
         JENKINS_CRED = "bitclave-jenkins-cicd"
     }
     stages {
@@ -66,14 +66,14 @@ spec:
         //     }
         // }
 
-        // stage('Build and push image with Container Builder') {
-        //     steps {
-        //         sh 'printenv'
-        //         container('gcloud') {
-        //         sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ."
-        //         }
-        //     }
-        // }
+        stage('Build and push image with Container Builder') {
+            steps {
+                sh 'printenv'
+                container('gcloud') {
+                sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ."
+                }
+            }
+        }
         stage('Deploy Production') {
         // Production branch
         steps{
@@ -82,6 +82,7 @@ spec:
               // Change deployed image in production to the one we just built
               sh("echo here2")
               sh("gcloud config get-value account")
+              sh ("echo ${IMAGE_TAG}")
               // sh("gcloud container clusters list")
               // sh("gcloud container clusters get-credentials jenkins-cd --zone=us-central1-f")
               // sh("gcloud container clusters list")

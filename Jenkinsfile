@@ -92,8 +92,10 @@ spec:
               // sh("kubectl cluster-info")
               step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/services', credentialsId: env.JENKINS_CRED, verifyDeployments: false])
               step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT, clusterName: env.CLUSTER, zone: env.CLUSTER_ZONE, manifestPattern: 'k8s/production', credentialsId: env.JENKINS_CRED, verifyDeployments: false])
+              sh("echo here4")
               sleep 10 // seconds
               sh("gcloud container clusters get-credentials jenkins-cd --zone us-central1-f --project bitclave-jenkins-cicd")
+              sh("echo here5")
               sh("echo `kubectl get service/${FE_SVC_NAME} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'`")
             }
           }
@@ -109,7 +111,7 @@ spec:
             steps{
             // sh("echo here1")
             container('kubectl') {
-              sh("gcloud container clusters get-credentials base-first --zone us-central1-f --project bitclave-jenkins-cicd")
+              sh("gcloud container clusters get-credentials jenkins-cd --zone us-central1-f --project bitclave-jenkins-cicd")
               sh("kubectl delete -n production services my-app-backend my-app-frontend")
               sh("kubectl delete -n production deployment my-app-backend-production my-app-frontend-production")
             }

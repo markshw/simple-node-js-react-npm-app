@@ -38,8 +38,8 @@ spec:
     }
     environment {
         CI = 'true' 
-        // PROJECT = "bitclave-jenkins-ci"
-        PROJECT = "bitclave-base"
+        PROJECT = "bitclave-jenkins-cicd"
+        // PROJECT = "bitclave-base"
         APP_NAME = "my-app"
         FE_SVC_NAME = "${APP_NAME}-frontend"
         CLUSTER = "base-first"

@@ -114,8 +114,8 @@ spec:
             // sh("echo here1")
             container('kubectl') {
               sh("gcloud container clusters get-credentials jenkins-cd --zone us-central1-f --project bitclave-jenkins-cicd")
-              sh("kubectl delete -n production services my-app-backend my-app-frontend")
-              sh("kubectl delete -n production deployment my-app-backend-production my-app-frontend-production")
+              sh("kubectl delete services my-app-backend my-app-frontend")
+              sh("kubectl delete deployment my-app-backend-production my-app-frontend-production")
             }
           }
         }
